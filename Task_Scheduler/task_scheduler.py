@@ -1,11 +1,14 @@
 import tkinter as tk
 from _pyrepl.commands import delete
+from tkinter import StringVar
 
 root = tk.Tk()
 
 root.title("Task Scheduler")
 
-root.geometry("700x500")
+root.geometry("800x600")
+
+root.configure(bg="#F5F7FA")
 
 # Title
 
@@ -40,7 +43,8 @@ task_entry.pack(pady=10)
 
 task_list = tk.Listbox(
     root,
-    width = 50,
+    width = 70,
+    height = 12,
     font = ("Segoe UI", 13, "bold"),
 )
 
@@ -51,14 +55,24 @@ task_list.pack(pady=10)
 def add_task():
     task = task_entry.get()
 
+    priority = priority_var.get()
+
+    emoji = priority_colors[priority]
+
     if task != "":
-        task_list.insert(
-            tk.END,
-            task,
-        )
         task_entry.delete(
             0,
             tk.END,
+        )
+
+        task_list.insert(
+            tk.END,
+            f"{priority_colors[priority]} | {task}"
+        )
+
+        task_entry.delete(
+            0,
+            tk.END
         )
 
 def remove_task():
@@ -101,4 +115,33 @@ delete_button.pack(
     side = "left",
     padx = 10
 )
+
+# Priority
+
+priority_var = tk.StringVar()
+priority_var.set("Medium")
+
+priority_label = tk.Label(
+    root,
+    text="Priority",
+    font = ("Segoe UI", 12, "bold"),
+ )
+priority_menu = tk.OptionMenu(
+    root,
+    priority_var,
+    "High",
+    "Medium",
+    "Low",
+)
+
+priority_colors={
+    "High": "[High]",
+    "Medium": "[Medium]",
+    "Low": "[Low]"
+}
+
+
+priority_menu.pack()
+
+
 root.mainloop()
