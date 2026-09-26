@@ -6,7 +6,7 @@ root = tk.Tk()
 
 root.title("Task Scheduler")
 
-root.geometry("800x600")
+root.geometry("900x700")
 
 root.configure(bg="#F5F7FA")
 
@@ -81,6 +81,34 @@ def remove_task():
     if selected_task:
         task_list.delete(selected_task)
 
+# Priority
+priority_label = tk.Label(
+    root,
+    text="Priority",
+    font = ("Segoe UI", 12, "bold"),
+ )
+priority_label.pack(pady=10)
+
+priority_var = tk.StringVar()
+priority_var.set("Medium")
+
+priority_menu = tk.OptionMenu(
+    root,
+    priority_var,
+    "High",
+    "Medium",
+    "Low",
+)
+
+priority_colors={
+    "High": "[High]",
+    "Medium": "[Medium]",
+    "Low": "[Low]"
+}
+
+
+priority_menu.pack()
+
 # Adding Buttons
 
 button_frame = tk.Frame(root)
@@ -116,32 +144,7 @@ delete_button.pack(
     padx = 10
 )
 
-# Priority
 
-priority_var = tk.StringVar()
-priority_var.set("Medium")
-
-priority_label = tk.Label(
-    root,
-    text="Priority",
-    font = ("Segoe UI", 12, "bold"),
- )
-priority_menu = tk.OptionMenu(
-    root,
-    priority_var,
-    "High",
-    "Medium",
-    "Low",
-)
-
-priority_colors={
-    "High": "[High]",
-    "Medium": "[Medium]",
-    "Low": "[Low]"
-}
-
-
-priority_menu.pack()
 
 
 root.mainloop()
