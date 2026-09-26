@@ -6,7 +6,7 @@ root = tk.Tk()
 
 root.title("Task Scheduler")
 
-root.geometry("1920x1080")
+root.geometry("1000x750")
 
 root.configure(bg="#F5F7FA")
 
@@ -83,28 +83,86 @@ priority_menu = tk.OptionMenu(
     priority_var,
     "Medium",
     "High",
-    "Low"
+    "Low",
 )
 
 priority_colors = {
-    "High" : "[High]",
-    "Medium" : "[Medium]",
-    "Low" : "[Low]",
+    "High" : "😓",
+    "Medium" : "😎",
+    "Low" : "😴",
 }
 
 priority_menu.pack()
 
+# Functions
+
+def add_task():
+    task = task_entry.get()
+
+    priority = priority_var.get()
+
+    emoji = priority_colors[priority]
+
+    if task !="":
+        task_entry.delete(
+            0,
+            tk.END
+        )
+        task_list.insert(
+            tk.END,
+            f"{priority_colors[priority]} {task}"
+        )
+
+def delete_task():
+    selected_task = task_list.curselection()
+
+    if selected_task:
+        task_list.delete(selected_task)
+
+# Buttons
+
+button_frame = tk.Frame()
+button_frame.pack(pady=10)
+
+input_button = tk.Button(
+    button_frame,
+    command = add_task,
+    font = ("Segoe UI", 12),
+    text = "Input",
+    bg = "Green",
+    fg = "#F5F7FA",
+    borderwidth = 12,
+)
+input_button.pack(
+    side = "left",
+    padx = 5
+)
+
+delete_button = tk.Button(
+    button_frame,
+    font = ("Segoe UI", 12),
+    text = "Delete",
+    command = delete_task,
+    bg = "Red",
+    fg = "#F5F7FA",
+    borderwidth = 12,
+)
+delete_button.pack(
+    side = "left",
+    padx = 5
+)
 # Task List
 
 task_list = tk.Listbox(
     root,
     font = ("Segoe UI", 16),
-    width = 70,
-    height = 20,
+    width = 50,
+    height = 10,
     bg = "#F5F7FA",
 )
 
 task_list.pack(pady=10)
+
 
 
 
