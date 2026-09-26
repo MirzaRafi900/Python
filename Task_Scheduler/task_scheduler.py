@@ -1,10 +1,24 @@
 import tkinter as tk
+import sqlite3
 from _pyrepl.commands import delete
 from asyncio import tasks
 from tkinter import StringVar
 from tkinter import messagebox
 
 root = tk.Tk()
+
+conn = sqlite3.connect("task.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    task TEXT NOT NULL,
+    priority INTEGER NOT NULL
+
+)
+""")
+conn.commit()
 
 root.title("Task Scheduler")
 
