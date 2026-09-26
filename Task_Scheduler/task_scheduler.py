@@ -1,14 +1,20 @@
 import tkinter as tk
 from _pyrepl.commands import delete
+from asyncio import tasks
 from tkinter import StringVar
+from tkinter import messagebox
 
 root = tk.Tk()
 
 root.title("Task Scheduler")
 
-root.geometry("1000x750")
+root.eval('tk::PlaceWindow . centre')
+
+root.geometry("900x700")
 
 root.configure(bg="#F5F7FA")
+
+root.resizable(False, False)
 
 # Title
 
@@ -24,7 +30,7 @@ task_label.pack(pady=10)
 subtitle = tk.Label(
     root,
     font = ("Segoe UI", 16, "italic"),
-    text = "For Your Daily Assistance",
+    text = "Stay organized, Stay Focused",
 )
 
 subtitle.pack(pady=10)
@@ -99,25 +105,35 @@ priority_menu.pack()
 def add_task():
     task = task_entry.get()
 
-    priority = priority_var.get()
+    if task == "":
+        messagebox.showwarning(
+            "Input Error",
+            "Please Enter the Task"
+        )
+        return
 
+    priority = priority_var.get()
     emoji = priority_colors[priority]
 
-    if task !="":
-        task_entry.delete(
-            0,
-            tk.END
-        )
-        task_list.insert(
-            tk.END,
-            f"{priority_colors[priority]} {task}"
-        )
+    task_list.insert(
+        tk.END,
+        f"{priority_colors[priority]} {task}"
+    )
+    update_task_count()
 
 def delete_task():
     selected_task = task_list.curselection()
 
     if selected_task:
         task_list.delete(selected_task)
+        update_task_count()
+
+def update_task_count():
+    count = task_list.size()
+    task_count.config(
+        text = f"Task Count: {count}"
+    )
+
 
 # Buttons
 
@@ -128,7 +144,7 @@ input_button = tk.Button(
     button_frame,
     command = add_task,
     font = ("Segoe UI", 12),
-    text = "Input",
+    text = "➕ Add Task",
     bg = "Green",
     fg = "#F5F7FA",
     borderwidth = 12,
@@ -141,7 +157,7 @@ input_button.pack(
 delete_button = tk.Button(
     button_frame,
     font = ("Segoe UI", 12),
-    text = "Delete",
+    text = "🗑️ Delete Task",
     command = delete_task,
     bg = "Red",
     fg = "#F5F7FA",
@@ -153,15 +169,40 @@ delete_button.pack(
 )
 # Task List
 
+task_heading = tk.Label(
+    root,
+    font = ("Segoe UI", 12, "bold"),
+    text = "Today's Tasks",
+    bg = "#F5F7FA",
+)
+task_heading.pack(pady=5)
 task_list = tk.Listbox(
     root,
     font = ("Segoe UI", 16),
     width = 50,
-    height = 10,
+    height = 8,
     bg = "#F5F7FA",
 )
 
 task_list.pack(pady=10)
+
+# Task Count
+
+task_count = tk.Label(
+    root,
+    text = "Task Count",
+    font = ("Segoe UI", 10),
+    fg = "Grey",
+    bg = "#F5F7FA",
+)
+
+task_count.pack()
+
+def update_task_count():
+    count = task_list.size()
+    task_count.config(
+        text = f"Task Count: {count}"
+    )
 
 
 
