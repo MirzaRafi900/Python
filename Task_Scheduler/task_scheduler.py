@@ -6,7 +6,7 @@ root = tk.Tk()
 
 root.title("Task Scheduler")
 
-root.geometry("900x700")
+root.geometry("1920x1080")
 
 root.configure(bg="#F5F7FA")
 
@@ -14,8 +14,8 @@ root.configure(bg="#F5F7FA")
 
 task_label = tk.Label(
     root,
-    text="Task Manager",
     font = ("Segoe UI", 22, "bold"),
+    text = "Task Scheduler",
 )
 task_label.pack(pady=10)
 
@@ -23,127 +23,88 @@ task_label.pack(pady=10)
 
 subtitle = tk.Label(
     root,
-    text="Manage your daily tasks",
     font = ("Segoe UI", 16, "italic"),
+    text = "For Your Daily Assistance",
 )
 
-subtitle.pack(pady=5)
+subtitle.pack(pady=10)
 
-# Input Box
+# Task Input
+
+input_frame = tk.Frame(
+    root,
+    bg="#F5F7FA"
+)
+input_frame.pack(pady=10)
+
+Input_label = tk.Label(
+    input_frame,
+    text = "Enter the Task",
+    font = ("Segoe UI", 12),
+)
+Input_label.pack(
+    side = "left",
+    padx = 5
+)
 
 task_entry = tk.Entry(
-    root,
+    input_frame,
+    font = ("Segoe UI", 12),
     width = 50,
-    font = ("Segoe UI", 13, "italic"),
+    bg = "#F5F7FA",
 )
 
-task_entry.pack(pady=10)
-
-# Task Listing
-
-task_list = tk.Listbox(
-    root,
-    width = 70,
-    height = 12,
-    font = ("Segoe UI", 13, "bold"),
+task_entry.pack(
+    side = "left",
+    padx = 5
 )
 
-task_list.pack(pady=10)
+# Priority List
 
-# Logics
-
-def add_task():
-    task = task_entry.get()
-
-    priority = priority_var.get()
-
-    emoji = priority_colors[priority]
-
-    if task != "":
-        task_entry.delete(
-            0,
-            tk.END,
-        )
-
-        task_list.insert(
-            tk.END,
-            f"{priority_colors[priority]} | {task}"
-        )
-
-        task_entry.delete(
-            0,
-            tk.END
-        )
-
-def remove_task():
-    selected_task = task_list.curselection()
-
-    if selected_task:
-        task_list.delete(selected_task)
-
-# Priority
-priority_label = tk.Label(
+priority_frame = tk.Frame(
     root,
-    text="Priority",
-    font = ("Segoe UI", 12, "bold"),
- )
-priority_label.pack(pady=10)
+    bg = "#F5F7FA"
+)
+
+priority_frame.pack(pady=10)
+
+task_priority = tk.Label(
+    priority_frame,
+    text = "Priority",
+    font = ("Segoe UI", 12),
+)
+task_priority.pack(pady=10)
 
 priority_var = tk.StringVar()
 priority_var.set("Medium")
 
 priority_menu = tk.OptionMenu(
-    root,
+    priority_frame,
     priority_var,
-    "High",
     "Medium",
-    "Low",
+    "High",
+    "Low"
 )
 
-priority_colors={
-    "High": "[High]",
-    "Medium": "[Medium]",
-    "Low": "[Low]"
+priority_colors = {
+    "High" : "[High]",
+    "Medium" : "[Medium]",
+    "Low" : "[Low]",
 }
-
 
 priority_menu.pack()
 
-# Adding Buttons
+# Task List
 
-button_frame = tk.Frame(root)
-button_frame.pack(pady=10)
-
-add_button = tk.Button(
-    button_frame,
-    text="Add Task",
-    command=add_task,
-    font = ("Segoe UI", 12, "bold"),
-    bg = "#4CAF50",
-    fg = "white",
-    width = 12,
+task_list = tk.Listbox(
+    root,
+    font = ("Segoe UI", 16),
+    width = 70,
+    height = 20,
+    bg = "#F5F7FA",
 )
 
-add_button.pack(
-    side = "left",
-    padx = 10
-)
-
-delete_button = tk.Button(
-    button_frame,
-    text="Delete Task",
-    command=remove_task,
-    bg="#E53935",
-    fg="white",
-    font = ("Segoe UI", 12, "bold"),
-
-
-)
-delete_button.pack(
-    side = "left",
-    padx = 10
-)
-
+task_list.pack(pady=10)
 
 
 
