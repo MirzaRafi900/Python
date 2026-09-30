@@ -35,8 +35,19 @@ def task_add_db(
 task_add_db(
     task_name="Finish MSc",
     priority="High",
-    due_date="2027/03/01"
+    due_date="2027/03/01",
+    due_time="01:00"
 )
 
+def load_tasks():
+    cursor.execute("""
+    SELECT * FROM tasks
+    """)
 
+    rows = cursor.fetchall()
+    return rows
+
+rows = load_tasks()
+for row in rows:
+    print(row)
 
